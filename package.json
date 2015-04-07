@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "devDependencies": {
+    "gulp": "~3.8.1",
+    "bower": "~1.4.1",
+    "mandragora-bucket": "~0.2.1"
+  }
+}

@@ -6,6 +6,9 @@
 
 ``` purescript
 data These a b
+  = This a
+  | That b
+  | Both a b
 ```
 
 
@@ -83,6 +86,34 @@ instance bindThese :: (Semigroup a) => Bind (These a)
 
 ``` purescript
 instance monadThese :: (Semigroup a) => Monad (These a)
+```
+
+
+#### `these`
+
+``` purescript
+these :: forall a b c. (a -> c) -> (b -> c) -> (a -> b -> c) -> These a b -> c
+```
+
+
+#### `fromThese`
+
+``` purescript
+fromThese :: forall a b. a -> b -> These a b -> Tuple a b
+```
+
+
+#### `theseLeft`
+
+``` purescript
+theseLeft :: forall a b. These a b -> Maybe a
+```
+
+
+#### `theseRight`
+
+``` purescript
+theseRight :: forall a b. These a b -> Maybe b
 ```
 
 

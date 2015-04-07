@@ -1,4 +1,4 @@
-module Data.These (These()) where
+module Data.These where
 
 import Data.Bifoldable
 import Data.Bifunctor
@@ -45,9 +45,6 @@ instance bifoldableThese :: Bifoldable These where
   bifoldr f g z = these (`f` z) (`g` z) (\x y -> x `f` (y `g` z))
   bifoldl f g z = these (z `f`) (z `g`) (\x y -> (z `f` x) `g` y)
   bifoldMap f g = these f g (\x y -> f x <> g y)
-
-a :: forall a. a
-a = (\_ -> a) {}
 
 instance bitraversableThese :: Bitraversable These where
   bitraverse f _ (This a) = This <$> f a

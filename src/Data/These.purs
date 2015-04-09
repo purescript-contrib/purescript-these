@@ -14,9 +14,15 @@ data These a b = This a
                | Both a b
 
 instance semigroupThese :: (Semigroup a, Semigroup b) => Semigroup (These a b) where
-  (<>) (Both a b) (Both c d) = Both (a <> c) (b <> d)
   (<>) (This a) (This b) = This (a <> b)
-  (<>) (This a) (This b) = This (a <> b)
+  (<>) (This a) (That y) = Both a y
+  (<>) (This a) (Both b y) = Both (a <> b) y
+  (<>) (That x) (This b) = Both b x
+  (<>) (That x) (That y) = That (x <> y)
+  (<>) (That x) (Both b y) = Both b (x <> y)
+  (<>) (Both a x) (This b) = Both (a <> b) x
+  (<>) (Both a x) (That y) = Both a (x <> y)
+  (<>) (Both a x) (Both b y) = Both (a <> b) (x <> y)
 
 instance functorThese :: Functor (These a) where
   (<$>) f (Both a b) = Both a (f b)

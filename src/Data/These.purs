@@ -85,6 +85,14 @@ these l _ _ (This a) = l a
 these _ r _ (That x) = r x
 these _ _ lr (Both a x) = lr a x
 
+thisOrBoth :: forall a b. a -> Maybe b -> These a b
+thisOrBoth a Nothing = This a
+thisOrBoth a (Just b) = Both a b
+
+thatOrBoth :: forall a b. b -> Maybe a -> These a b
+thatOrBoth b Nothing = That b
+thatOrBoth b (Just a) = Both a b
+
 fromThese :: forall a b. a -> b -> These a b -> Tuple a b
 fromThese _ x (This a)   = Tuple a x
 fromThese a _ (That x)   = Tuple a x

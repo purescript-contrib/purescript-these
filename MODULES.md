@@ -96,6 +96,20 @@ these :: forall a b c. (a -> c) -> (b -> c) -> (a -> b -> c) -> These a b -> c
 ```
 
 
+#### `thisOrBoth`
+
+``` purescript
+thisOrBoth :: forall a b. a -> Maybe b -> These a b
+```
+
+
+#### `thatOrBoth`
+
+``` purescript
+thatOrBoth :: forall a b. b -> Maybe a -> These a b
+```
+
+
 #### `fromThese`
 
 ``` purescript

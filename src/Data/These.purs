@@ -9,25 +9,40 @@ import Data.Monoid
 import Data.Traversable
 import Data.Tuple
 
+import Prelude
+  ( ($)
+  , (<$>)
+  , (<*>)
+  , (<<<)
+  , (<>)
+  , Applicative
+  , Apply
+  , Bind
+  , Functor
+  , Monad
+  , Semigroup
+  , pure
+  , id )
+
 data These a b = This a
                | That b
                | Both a b
 
 instance semigroupThese :: (Semigroup a, Semigroup b) => Semigroup (These a b) where
-  (<>) (This a) (This b) = This (a <> b)
-  (<>) (This a) (That y) = Both a y
-  (<>) (This a) (Both b y) = Both (a <> b) y
-  (<>) (That x) (This b) = Both b x
-  (<>) (That x) (That y) = That (x <> y)
-  (<>) (That x) (Both b y) = Both b (x <> y)
-  (<>) (Both a x) (This b) = Both (a <> b) x
-  (<>) (Both a x) (That y) = Both a (x <> y)
-  (<>) (Both a x) (Both b y) = Both (a <> b) (x <> y)
+  append (This a) (This b) = This (a <> b)
+  append (This a) (That y) = Both a y
+  append (This a) (Both b y) = Both (a <> b) y
+  append (That x) (This b) = Both b x
+  append (That x) (That y) = That (x <> y)
+  append (That x) (Both b y) = Both b (x <> y)
+  append (Both a x) (This b) = Both (a <> b) x
+  append (Both a x) (That y) = Both a (x <> y)
+  append (Both a x) (Both b y) = Both (a <> b) (x <> y)
 
 instance functorThese :: Functor (These a) where
-  (<$>) f (Both a b) = Both a (f b)
-  (<$>) f (That a) = That (f a)
-  (<$>) _ (This a) = This a
+  map f (Both a b) = Both a (f b)
+  map f (That a) = That (f a)
+  map _ (This a) = This a
 
 instance foldableThese :: Foldable (These a) where
   foldr f z = foldr f z <<< theseRight
@@ -59,21 +74,21 @@ instance bitraversableThese :: Bitraversable These where
   bisequence = bitraverse id id
 
 instance applyThese :: (Semigroup a) => Apply (These a) where
-  (<*>) (This a) _ = This a
-  (<*>) (That _) (This b) = This b
-  (<*>) (That f) (That x) = That (f x)
-  (<*>) (That f) (Both b x) = Both b (f x)
-  (<*>) (Both a _) (This b) = This (a <> b)
-  (<*>) (Both a f) (That x) = Both a (f x)
-  (<*>) (Both a f) (Both b x) = Both (a <> b) (f x)
+  apply (This a) _ = This a
+  apply (That _) (This b) = This b
+  apply (That f) (That x) = That (f x)
+  apply (That f) (Both b x) = Both b (f x)
+  apply (Both a _) (This b) = This (a <> b)
+  apply (Both a f) (That x) = Both a (f x)
+  apply (Both a f) (Both b x) = Both (a <> b) (f x)
 
 instance applicativeThese :: (Semigroup a) => Applicative (These a) where
   pure = That
 
 instance bindThese :: (Semigroup a) => Bind (These a) where
-  (>>=) (This a) _ = This a
-  (>>=) (That x) k = k x
-  (>>=) (Both a x) k = case k x of
+  bind (This a) _ = This a
+  bind (That x) k = k x
+  bind (Both a x) k = case k x of
                          This b -> This (a <> b)
                          That y -> Both a y
                          Both b y -> Both (a <> b) y

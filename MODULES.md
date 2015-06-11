@@ -1,6 +1,8 @@
-# Module Documentation
-
 ## Module Data.These
+
+This module defines a type constructor `These`, which is similar to `Either`,
+but with an additional constructor for the case when values of `Both` types
+are present.
 
 #### `These`
 
@@ -11,83 +13,28 @@ data These a b
   | Both a b
 ```
 
+A data type isomorphic to `α ∨ β ∨ (α ∧ β)`.
 
-#### `semigroupThese`
+A value of type `These a b` can consist of:
 
+- Only a value of type `a`.
+- Only a value of type `b`.
+- Values of both types.
+
+##### Instances
 ``` purescript
 instance semigroupThese :: (Semigroup a, Semigroup b) => Semigroup (These a b)
-```
-
-
-#### `functorThese`
-
-``` purescript
 instance functorThese :: Functor (These a)
-```
-
-
-#### `foldableThese`
-
-``` purescript
 instance foldableThese :: Foldable (These a)
-```
-
-
-#### `traversableThese`
-
-``` purescript
 instance traversableThese :: Traversable (These a)
-```
-
-
-#### `bifunctorThese`
-
-``` purescript
 instance bifunctorThese :: Bifunctor These
-```
-
-
-#### `bifoldableThese`
-
-``` purescript
 instance bifoldableThese :: Bifoldable These
-```
-
-
-#### `bitraversableThese`
-
-``` purescript
 instance bitraversableThese :: Bitraversable These
-```
-
-
-#### `applyThese`
-
-``` purescript
 instance applyThese :: (Semigroup a) => Apply (These a)
-```
-
-
-#### `applicativeThese`
-
-``` purescript
 instance applicativeThese :: (Semigroup a) => Applicative (These a)
-```
-
-
-#### `bindThese`
-
-``` purescript
 instance bindThese :: (Semigroup a) => Bind (These a)
-```
-
-
-#### `monadThese`
-
-``` purescript
 instance monadThese :: (Semigroup a) => Monad (These a)
 ```
-
 
 #### `these`
 
@@ -95,6 +42,8 @@ instance monadThese :: (Semigroup a) => Monad (These a)
 these :: forall a b c. (a -> c) -> (b -> c) -> (a -> b -> c) -> These a b -> c
 ```
 
+Unpack a value of type `These a b` by applying the appropriate function to
+the contained values.
 
 #### `thisOrBoth`
 
@@ -102,6 +51,7 @@ these :: forall a b c. (a -> c) -> (b -> c) -> (a -> b -> c) -> These a b -> c
 thisOrBoth :: forall a b. a -> Maybe b -> These a b
 ```
 
+Create a value of type `These a b` which always contains a value of type `a`.
 
 #### `thatOrBoth`
 
@@ -109,6 +59,7 @@ thisOrBoth :: forall a b. a -> Maybe b -> These a b
 thatOrBoth :: forall a b. b -> Maybe a -> These a b
 ```
 
+Create a value of type `These a b` which always contains a value of type `b`.
 
 #### `fromThese`
 
@@ -116,6 +67,8 @@ thatOrBoth :: forall a b. b -> Maybe a -> These a b
 fromThese :: forall a b. a -> b -> These a b -> Tuple a b
 ```
 
+Unpack a value of type `These a b`, using default values when the value on one
+side is missing.
 
 #### `theseLeft`
 
@@ -123,6 +76,7 @@ fromThese :: forall a b. a -> b -> These a b -> Tuple a b
 theseLeft :: forall a b. These a b -> Maybe a
 ```
 
+Try to extract the left value from a value of type `These a b`.
 
 #### `theseRight`
 
@@ -130,6 +84,6 @@ theseLeft :: forall a b. These a b -> Maybe a
 theseRight :: forall a b. These a b -> Maybe b
 ```
 
-
+Try to extract the right value from a value of type `These a b`.
 
 

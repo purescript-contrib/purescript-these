@@ -1,3 +1,7 @@
+-- | This module defines a type constructor `These`, which is similar to `Either`,
+-- | but with an additional constructor for the case when values of `Both` types
+-- | are present.
+
 module Data.These where
 
 import Data.Bifoldable
@@ -24,6 +28,13 @@ import Prelude
   , pure
   , id )
 
+-- | A data type isomorphic to `α ∨ β ∨ (α ∧ β)`.
+-- |
+-- | A value of type `These a b` can consist of:
+-- |
+-- | - Only a value of type `a`.
+-- | - Only a value of type `b`.
+-- | - Values of both types.
 data These a b = This a
                | That b
                | Both a b
@@ -95,29 +106,37 @@ instance bindThese :: (Semigroup a) => Bind (These a) where
 
 instance monadThese :: (Semigroup a) => Monad (These a)
 
+-- | Unpack a value of type `These a b` by applying the appropriate function to
+-- | the contained values.
 these :: forall a b c. (a -> c) -> (b -> c) -> (a -> b -> c) -> These a b -> c
 these l _ _ (This a) = l a
 these _ r _ (That x) = r x
 these _ _ lr (Both a x) = lr a x
 
+-- | Create a value of type `These a b` which always contains a value of type `a`.
 thisOrBoth :: forall a b. a -> Maybe b -> These a b
 thisOrBoth a Nothing = This a
 thisOrBoth a (Just b) = Both a b
 
+-- | Create a value of type `These a b` which always contains a value of type `b`.
 thatOrBoth :: forall a b. b -> Maybe a -> These a b
 thatOrBoth b Nothing = That b
 thatOrBoth b (Just a) = Both a b
 
+-- | Unpack a value of type `These a b`, using default values when the value on one
+-- | side is missing.
 fromThese :: forall a b. a -> b -> These a b -> Tuple a b
 fromThese _ x (This a)   = Tuple a x
 fromThese a _ (That x)   = Tuple a x
 fromThese _ _ (Both a x) = Tuple a x
 
+-- | Try to extract the left value from a value of type `These a b`.
 theseLeft :: forall a b. These a b -> Maybe a
 theseLeft (Both x _) = Just x
 theseLeft (This x)   = Just x
 theseLeft _          = Nothing
 
+-- | Try to extract the right value from a value of type `These a b`.
 theseRight :: forall a b. These a b -> Maybe b
 theseRight (Both _ x) = Just x
 theseRight (That x)   = Just x

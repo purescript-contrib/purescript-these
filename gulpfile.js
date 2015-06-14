@@ -4,23 +4,42 @@
 var gulp = require("gulp");
 var plumber = require("gulp-plumber");
 var purescript = require("gulp-purescript");
+var rimraf = require("rimraf");
 
 var sources = [
   "src/**/*.purs",
   "bower_components/purescript-*/src/**/*.purs"
 ];
 
+var foreigns = [
+  "src/**/*.js",
+  "bower_components/purescript-*/src/**/*.js"
+];
+
+gulp.task("clean-docs", function (cb) {
+  rimraf("docs", cb);
+});
+
+gulp.task("clean-output", function (cb) {
+  rimraf("output", cb);
+});
+
+gulp.task("clean", ["clean-docs", "clean-output"]);
+
 gulp.task("make", function() {
   return gulp.src(sources)
     .pipe(plumber())
-    .pipe(purescript.pscMake());
+    .pipe(purescript.pscMake({ ffi: foreigns }));
 });
 
-gulp.task("docs", function () {
-  return gulp.src(["src/**/*.purs"])
+gulp.task("docs", ["clean-docs"], function () {
+  return gulp.src(sources)
     .pipe(plumber())
-    .pipe(purescript.pscDocs())
-    .pipe(gulp.dest("MODULES.md"));
+    .pipe(purescript.pscDocs({
+      docgen: {
+        "Data.These": "docs/Data.These.md"
+      }
+    }));
 });
 
 gulp.task("dotpsci", function () {
@@ -29,4 +48,4 @@ gulp.task("dotpsci", function () {
     .pipe(purescript.dotPsci());
 });
 
-gulp.task("default", ["make", "docs"]);
+gulp.task("default", ["make", "docs", "dotpsci"]);

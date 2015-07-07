@@ -27,25 +27,20 @@ gulp.task("clean-output", function (cb) {
 gulp.task("clean", ["clean-docs", "clean-output"]);
 
 gulp.task("make", function() {
-  return gulp.src(sources)
-    .pipe(plumber())
-    .pipe(purescript.pscMake({ ffi: foreigns }));
+  return purescript.psc({ src: sources, ffi: foreigns });
 });
 
 gulp.task("docs", ["clean-docs"], function () {
-  return gulp.src(sources)
-    .pipe(plumber())
-    .pipe(purescript.pscDocs({
+  return purescript.pscDocs({
+      src: sources,
       docgen: {
         "Data.These": "docs/Data.These.md"
       }
-    }));
+    });
 });
 
 gulp.task("dotpsci", function () {
-  return gulp.src(sources)
-    .pipe(plumber())
-    .pipe(purescript.dotPsci());
+  return purescript.psci({ src: sources, ffi: foreigns }).pipe(gulp.dest('.'));
 });
 
 gulp.task("default", ["make", "docs", "dotpsci"]);

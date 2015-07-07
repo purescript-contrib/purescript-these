@@ -12,4 +12,4 @@ install:
   - npm install bower gulp -g
   - npm install && bower install
 script:
-  - pulp build
+  - gulp

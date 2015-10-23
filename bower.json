@@ -1,6 +1,6 @@
 {
   "name": "purescript-these",
-  "description": "Data type ismorphic to: α ̧̣̣∨ β ∨ (α ∧ β)",
+  "description": "Data type ismorphic to: α ∨ β ∨ (α ∧ β)",
   "license": "MIT",
   "dependencies": {
     "purescript-foldable-traversable": "^0.4.0",

@@ -1,6 +1,6 @@
 {
   "name": "purescript-these",
-  "description": "Data type isomorphic to: α ∨ β ∨ (α ∧ β)",
+  "description": "Data type isomorphic to: a OR b OR (a AND b)",
   "license": "MIT",
   "repository": {
     "type": "git",

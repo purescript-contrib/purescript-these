@@ -2,6 +2,10 @@
   "name": "purescript-these",
   "description": "Data type isomorphic to: α ∨ β ∨ (α ∧ β)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/purescript-contrib/purescript-these.git"
+  },
   "dependencies": {
     "purescript-foldable-traversable": "^0.4.0",
     "purescript-tuples": "^0.4.0"

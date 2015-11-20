@@ -5,7 +5,6 @@ import Data.Bifunctor
 import Data.Bitraversable
 import Data.Foldable
 import Data.Maybe
-import Data.Monoid
 import Data.Traversable
 import Data.Tuple
 

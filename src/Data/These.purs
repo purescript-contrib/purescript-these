@@ -1,12 +1,12 @@
 module Data.These where
 
-import Data.Bifoldable
-import Data.Bifunctor
-import Data.Bitraversable
-import Data.Foldable
-import Data.Maybe
-import Data.Traversable
-import Data.Tuple
+import Data.Bifoldable (class Bifoldable)
+import Data.Bifunctor (class Bifunctor)
+import Data.Bitraversable (class Bitraversable, bitraverse)
+import Data.Foldable (class Foldable, foldMap, foldl, foldr)
+import Data.Maybe (Maybe(Nothing, Just))
+import Data.Traversable (class Traversable)
+import Data.Tuple (Tuple(Tuple))
 
 import Prelude
   ( ($)
@@ -14,12 +14,12 @@ import Prelude
   , (<*>)
   , (<<<)
   , (<>)
-  , Applicative
-  , Apply
-  , Bind
-  , Functor
-  , Monad
-  , Semigroup
+  , class Applicative
+  , class Apply
+  , class Bind
+  , class Functor
+  , class Monad
+  , class Semigroup
   , pure
   , id )
 

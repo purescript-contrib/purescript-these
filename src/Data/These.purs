@@ -20,6 +20,8 @@ import Prelude
   , Functor
   , Monad
   , Semigroup
+  , Show
+  , show
   , pure
   , id )
 
@@ -93,6 +95,11 @@ instance bindThese :: (Semigroup a) => Bind (These a) where
                          Both b y -> Both (a <> b) y
 
 instance monadThese :: (Semigroup a) => Monad (These a)
+
+instance showThese :: (Show a, Show b) => Show (These a b) where
+  show (This x) = "This (" <> show x <> ")"
+  show (That y) = "That (" <> show y <> ")"
+  show (Both x y) = "Both (" <> show x <> ") (" <> show y <> ")"
 
 these :: forall a b c. (a -> c) -> (b -> c) -> (a -> b -> c) -> These a b -> c
 these l _ _ (This a) = l a

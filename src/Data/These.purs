@@ -1,29 +1,28 @@
 module Data.These where
 
-import Data.Bifoldable
-import Data.Bifunctor
-import Data.Bitraversable
-import Data.Foldable
-import Data.Maybe
-import Data.Traversable
-import Data.Tuple
-
 import Prelude
   ( ($)
   , (<$>)
   , (<*>)
   , (<<<)
   , (<>)
-  , Applicative
-  , Apply
-  , Bind
-  , Functor
-  , Monad
-  , Semigroup
-  , Show
+  , class Applicative
+  , class Apply
+  , class Bind
+  , class Functor
+  , class Monad
+  , class Semigroup
+  , class Show
   , show
   , pure
-  , id )
+  , id
+  )
+
+import Data.Bifunctor (class Bifunctor)
+import Data.Bitraversable (class Bitraversable, class Bifoldable, bitraverse)
+import Data.Maybe (Maybe(..))
+import Data.Traversable (class Traversable, class Foldable, foldMap, foldl, foldr)
+import Data.Tuple (Tuple(..))
 
 data These a b = This a
                | That b
@@ -64,8 +63,8 @@ instance bifunctorThese :: Bifunctor These where
   bimap f g (Both a x) = Both (f a) (g x)
 
 instance bifoldableThese :: Bifoldable These where
-  bifoldr f g z = these (`f` z) (`g` z) (\x y -> x `f` (y `g` z))
-  bifoldl f g z = these (z `f`) (z `g`) (\x y -> (z `f` x) `g` y)
+  bifoldr f g z = these (_ `f` z) (_ `g` z) (\x y -> x `f` (y `g` z))
+  bifoldl f g z = these (z `f` _) (z `g` _) (\x y -> (z `f` x) `g` y)
   bifoldMap f g = these f g (\x y -> f x <> g y)
 
 instance bitraversableThese :: Bitraversable These where
@@ -74,7 +73,7 @@ instance bitraversableThese :: Bitraversable These where
   bitraverse f g (Both a x) = Both <$> f a <*> g x
   bisequence = bitraverse id id
 
-instance applyThese :: (Semigroup a) => Apply (These a) where
+instance applyThese :: Semigroup a => Apply (These a) where
   apply (This a) _ = This a
   apply (That _) (This b) = This b
   apply (That f) (That x) = That (f x)
@@ -83,10 +82,10 @@ instance applyThese :: (Semigroup a) => Apply (These a) where
   apply (Both a f) (That x) = Both a (f x)
   apply (Both a f) (Both b x) = Both (a <> b) (f x)
 
-instance applicativeThese :: (Semigroup a) => Applicative (These a) where
+instance applicativeThese :: Semigroup a => Applicative (These a) where
   pure = That
 
-instance bindThese :: (Semigroup a) => Bind (These a) where
+instance bindThese :: Semigroup a => Bind (These a) where
   bind (This a) _ = This a
   bind (That x) k = k x
   bind (Both a x) k = case k x of
@@ -94,7 +93,7 @@ instance bindThese :: (Semigroup a) => Bind (These a) where
                          That y -> Both a y
                          Both b y -> Both (a <> b) y
 
-instance monadThese :: (Semigroup a) => Monad (These a)
+instance monadThese :: Semigroup a => Monad (These a)
 
 instance showThese :: (Show a, Show b) => Show (These a b) where
   show (This x) = "This (" <> show x <> ")"

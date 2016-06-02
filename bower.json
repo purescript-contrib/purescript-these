@@ -7,7 +7,7 @@
     "url": "git://github.com/purescript-contrib/purescript-these.git"
   },
   "dependencies": {
-    "purescript-foldable-traversable": "^1.0.0-rc.1",
-    "purescript-tuples": "^1.0.0-rc.1"
+    "purescript-foldable-traversable": "^1.0.0",
+    "purescript-tuples": "^1.0.0"
   }
 }

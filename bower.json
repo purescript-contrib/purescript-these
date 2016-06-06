@@ -1,13 +1,22 @@
 {
   "name": "purescript-these",
+  "homepage": "https://github.com/purescript-contrib/purescript-these",
   "description": "Data type isomorphic to: α ∨ β ∨ (α ∧ β)",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git://github.com/purescript-contrib/purescript-these.git"
   },
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "node_modules",
+    "output",
+    "test",
+    "bower.json",
+    "package.json"
+  ],
   "dependencies": {
-    "purescript-foldable-traversable": "^1.0.0",
-    "purescript-tuples": "^1.0.0"
+    "purescript-generics": "^1.0.0"
   }
 }

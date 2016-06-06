@@ -1,32 +1,25 @@
 module Data.These where
 
 import Prelude
-  ( ($)
-  , (<$>)
-  , (<*>)
-  , (<<<)
-  , (<>)
-  , class Applicative
-  , class Apply
-  , class Bind
-  , class Functor
-  , class Monad
-  , class Semigroup
-  , class Show
-  , show
-  , pure
-  , id
-  )
+
+import Control.Extend (class Extend)
 
 import Data.Bifunctor (class Bifunctor)
 import Data.Bitraversable (class Bitraversable, class Bifoldable, bitraverse)
+import Data.Functor.Invariant (class Invariant, imapF)
+import Data.Generic (class Generic)
 import Data.Maybe (Maybe(..))
 import Data.Traversable (class Traversable, class Foldable, foldMap, foldl, foldr)
 import Data.Tuple (Tuple(..))
 
-data These a b = This a
-               | That b
-               | Both a b
+data These a b
+  = This a
+  | That b
+  | Both a b
+
+derive instance eqThese :: (Eq a, Eq b) => Eq (These a b)
+derive instance ordThese :: (Ord a, Ord b) => Ord (These a b)
+derive instance genericThese :: (Generic a, Generic b) => Generic (These a b)
 
 instance semigroupThese :: (Semigroup a, Semigroup b) => Semigroup (These a b) where
   append (This a) (This b) = This (a <> b)
@@ -43,6 +36,9 @@ instance functorThese :: Functor (These a) where
   map f (Both a b) = Both a (f b)
   map f (That a) = That (f a)
   map _ (This a) = This a
+
+instance invariantThese :: Invariant (These a) where
+  imap = imapF
 
 instance foldableThese :: Foldable (These a) where
   foldr f z = foldr f z <<< theseRight
@@ -88,17 +84,22 @@ instance applicativeThese :: Semigroup a => Applicative (These a) where
 instance bindThese :: Semigroup a => Bind (These a) where
   bind (This a) _ = This a
   bind (That x) k = k x
-  bind (Both a x) k = case k x of
-                         This b -> This (a <> b)
-                         That y -> Both a y
-                         Both b y -> Both (a <> b) y
+  bind (Both a x) k =
+    case k x of
+      This b -> This (a <> b)
+      That y -> Both a y
+      Both b y -> Both (a <> b) y
 
 instance monadThese :: Semigroup a => Monad (These a)
 
+instance extendEither :: Extend (These a) where
+  extend _ (This a) = This a
+  extend f x = map (const (f x)) x
+
 instance showThese :: (Show a, Show b) => Show (These a b) where
-  show (This x) = "This (" <> show x <> ")"
-  show (That y) = "That (" <> show y <> ")"
-  show (Both x y) = "Both (" <> show x <> ") (" <> show y <> ")"
+  show (This x) = "(This " <> show x <> ")"
+  show (That y) = "(That " <> show y <> ")"
+  show (Both x y) = "(Both " <> show x <> " " <> show y <> ")"
 
 these :: forall a b c. (a -> c) -> (b -> c) -> (a -> b -> c) -> These a b -> c
 these l _ _ (This a) = l a

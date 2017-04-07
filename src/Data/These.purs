@@ -7,7 +7,6 @@ import Control.Extend (class Extend)
 import Data.Bifunctor (class Bifunctor)
 import Data.Bitraversable (class Bitraversable, class Bifoldable, bitraverse)
 import Data.Functor.Invariant (class Invariant, imapF)
-import Data.Generic (class Generic)
 import Data.Maybe (Maybe(..))
 import Data.Traversable (class Traversable, class Foldable, foldMap, foldl, foldr)
 import Data.Tuple (Tuple(..))
@@ -19,7 +18,6 @@ data These a b
 
 derive instance eqThese :: (Eq a, Eq b) => Eq (These a b)
 derive instance ordThese :: (Ord a, Ord b) => Ord (These a b)
-derive instance genericThese :: (Generic a, Generic b) => Generic (These a b)
 
 instance semigroupThese :: (Semigroup a, Semigroup b) => Semigroup (These a b) where
   append (This a) (This b) = This (a <> b)

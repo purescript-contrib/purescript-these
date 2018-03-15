@@ -3,7 +3,6 @@ module Data.These where
 import Prelude
 
 import Control.Extend (class Extend)
-
 import Data.Bifunctor (class Bifunctor)
 import Data.Bitraversable (class Bitraversable, class Bifoldable, bitraverse)
 import Data.Functor.Invariant (class Invariant, imapF)
@@ -112,17 +111,39 @@ thatOrBoth :: forall a b. b -> Maybe a -> These a b
 thatOrBoth b Nothing = That b
 thatOrBoth b (Just a) = Both a b
 
+-- | Takes a pair of `Maybe`s and attempts to create a `These` from them.
+maybeThese :: forall a b. Maybe a -> Maybe b -> Maybe (These a b)
+maybeThese = case _, _ of
+  Just a, Nothing -> Just (This a)
+  Nothing, Just b -> Just (That b)
+  Just a, Just b -> Just (Both a b)
+  Nothing, Nothing -> Nothing
+
 fromThese :: forall a b. a -> b -> These a b -> Tuple a b
 fromThese _ x (This a)   = Tuple a x
 fromThese a _ (That x)   = Tuple a x
 fromThese _ _ (Both a x) = Tuple a x
 
+-- | Returns an `a` value if possible.
 theseLeft :: forall a b. These a b -> Maybe a
 theseLeft (Both x _) = Just x
 theseLeft (This x)   = Just x
 theseLeft _          = Nothing
 
+-- | Returns a `b` value if possible.
 theseRight :: forall a b. These a b -> Maybe b
 theseRight (Both _ x) = Just x
 theseRight (That x)   = Just x
 theseRight _          = Nothing
+
+-- | Returns the `a` value iff the value is constructed with `This`.
+this :: forall a b. These a b -> Maybe a
+this = case _ of
+  This x -> Just x
+  _ -> Nothing
+
+-- | Returns the `b` value iff the value is constructed with `That`.
+that :: forall a b. These a b -> Maybe b
+that = case _ of
+  That x -> Just x
+  _ -> Nothing

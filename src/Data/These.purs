@@ -136,13 +136,13 @@ theseRight (Both _ x) = Just x
 theseRight (That x)   = Just x
 theseRight _          = Nothing
 
--- | Returns the `a` value iff the value is constructed with `This`.
+-- | Returns the `a` value if and only if the value is constructed with `This`.
 this :: forall a b. These a b -> Maybe a
 this = case _ of
   This x -> Just x
   _ -> Nothing
 
--- | Returns the `b` value iff the value is constructed with `That`.
+-- | Returns the `b` value if and only if the value is constructed with `That`.
 that :: forall a b. These a b -> Maybe b
 that = case _ of
   That x -> Just x

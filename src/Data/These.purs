@@ -64,7 +64,7 @@ instance bitraversableThese :: Bitraversable These where
   bitraverse f _ (This a) = This <$> f a
   bitraverse _ g (That x) = That <$> g x
   bitraverse f g (Both a x) = Both <$> f a <*> g x
-  bisequence = bitraverse id id
+  bisequence = bitraverse identity identity
 
 instance applyThese :: Semigroup a => Apply (These a) where
   apply (This a) _ = This a
@@ -120,21 +120,21 @@ maybeThese = case _, _ of
   Nothing, Nothing -> Nothing
 
 fromThese :: forall a b. a -> b -> These a b -> Tuple a b
-fromThese _ x (This a)   = Tuple a x
-fromThese a _ (That x)   = Tuple a x
+fromThese _ x (This a) = Tuple a x
+fromThese a _ (That x) = Tuple a x
 fromThese _ _ (Both a x) = Tuple a x
 
 -- | Returns an `a` value if possible.
 theseLeft :: forall a b. These a b -> Maybe a
 theseLeft (Both x _) = Just x
-theseLeft (This x)   = Just x
-theseLeft _          = Nothing
+theseLeft (This x) = Just x
+theseLeft _ = Nothing
 
 -- | Returns a `b` value if possible.
 theseRight :: forall a b. These a b -> Maybe b
 theseRight (Both _ x) = Just x
-theseRight (That x)   = Just x
-theseRight _          = Nothing
+theseRight (That x) = Just x
+theseRight _ = Nothing
 
 -- | Returns the `a` value if and only if the value is constructed with `This`.
 this :: forall a b. These a b -> Maybe a

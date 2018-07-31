@@ -5,8 +5,8 @@ import Prelude
 import Control.Extend (class Extend)
 import Data.Bifunctor (class Bifunctor, bimap)
 import Data.Bitraversable (class Bitraversable, class Bifoldable, bitraverse)
-import Data.Compactable (class Compactable, compact, mapMaybe)
 import Data.Either (Either(..))
+import Data.Filterable (class Filterable, filterMap)
 import Data.Functor.Invariant (class Invariant, imapF)
 import Data.Lens (Prism, prism)
 import Data.Maybe (Maybe(..), isJust)
@@ -171,14 +171,14 @@ isThat = isJust <<< that
 isBoth :: forall a b. These a b -> Boolean
 isBoth = isJust <<< both
 
-catThis :: forall t a b. Compactable t => Functor t => t (These a b) -> t a
-catThis = mapMaybe this
+catThis :: forall t a b. Filterable t => Functor t => t (These a b) -> t a
+catThis = filterMap this
 
-catThat :: forall t a b. Compactable t => Functor t => t (These a b) -> t b
-catThat = mapMaybe that
+catThat :: forall t a b. Filterable t => Functor t => t (These a b) -> t b
+catThat = filterMap that
 
-catThese :: forall t a b. Compactable t => Functor t => t (These a b) -> t (Tuple a b)
-catThese = mapMaybe both
+catThese :: forall t a b. Filterable t => Functor t => t (These a b) -> t (Tuple a b)
+catThese = filterMap both
 
 _This :: forall a b. Prism (These a b) (These a b) a a
 _This = prism This (these Right (Left <<< That) (\x y -> Left $ Both x y))

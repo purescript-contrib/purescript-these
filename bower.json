@@ -19,7 +19,7 @@
   "dependencies": {
     "purescript-tuples": "^5.0.0",
     "purescript-gen": "^2.0.0",
-    "purescript-filterable": "xgrommx/purescript-filterable#211942c22aa9fac73920c6b75190e791eb8db51e",
+    "purescript-filterable": "^3.0.1",
     "purescript-profunctor-lenses": "^4.0.0"
   }
 }

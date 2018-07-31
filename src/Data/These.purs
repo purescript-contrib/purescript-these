@@ -3,12 +3,15 @@ module Data.These where
 import Prelude
 
 import Control.Extend (class Extend)
-import Data.Bifunctor (class Bifunctor)
+import Data.Bifunctor (class Bifunctor, bimap)
 import Data.Bitraversable (class Bitraversable, class Bifoldable, bitraverse)
+import Data.Compactable (class Compactable, compact, mapMaybe)
+import Data.Either (Either(..))
 import Data.Functor.Invariant (class Invariant, imapF)
-import Data.Maybe (Maybe(..))
+import Data.Lens (Prism, prism)
+import Data.Maybe (Maybe(..), isJust)
 import Data.Traversable (class Traversable, class Foldable, foldMap, foldl, foldr)
-import Data.Tuple (Tuple(..))
+import Data.Tuple (Tuple(..), uncurry)
 
 data These a b
   = This a
@@ -147,3 +150,41 @@ that :: forall a b. These a b -> Maybe b
 that = case _ of
   That x -> Just x
   _ -> Nothing
+
+both :: forall a b. These a b -> Maybe (Tuple a b)
+both = case _ of
+  Both a x -> Just (Tuple a x)
+  _ -> Nothing
+
+mergeThese :: forall a. (a -> a -> a) -> These a a -> a
+mergeThese = these identity identity
+
+mergeTheseWith :: forall a b c. (a -> c) -> (b -> c) -> (c -> c -> c) -> These a b -> c
+mergeTheseWith f g op t = mergeThese op $ bimap f g t
+
+isThis :: forall a b. These a b -> Boolean
+isThis = isJust <<< this
+
+isThat :: forall a b. These a b -> Boolean
+isThat = isJust <<< that
+
+isBoth :: forall a b. These a b -> Boolean
+isBoth = isJust <<< both
+
+catThis :: forall t a b. Compactable t => Functor t => t (These a b) -> t a
+catThis = mapMaybe this
+
+catThat :: forall t a b. Compactable t => Functor t => t (These a b) -> t b
+catThat = mapMaybe that
+
+catThese :: forall t a b. Compactable t => Functor t => t (These a b) -> t (Tuple a b)
+catThese = mapMaybe both
+
+_This :: forall a b. Prism (These a b) (These a b) a a
+_This = prism This (these Right (Left <<< That) (\x y -> Left $ Both x y))
+
+_That :: forall a b. Prism (These a b) (These a b) b b
+_That = prism That (these (Left <<< This) Right (\x y -> Left $ Both x y))
+
+_Both :: forall a b. Prism (These a b) (These a b) (Tuple a b) (Tuple a b)
+_Both = prism (uncurry Both) (these (Left <<< This) (Left <<< That) (\x y -> Right (Tuple x y)))

@@ -6,7 +6,7 @@ import Control.Extend (class Extend)
 import Data.Bifunctor (class Bifunctor)
 import Data.Bitraversable (class Bitraversable, class Bifoldable, bitraverse)
 import Data.Functor.Invariant (class Invariant, imapF)
-import Data.Maybe (Maybe(..))
+import Data.Maybe (Maybe(..), isJust)
 import Data.Traversable (class Traversable, class Foldable, foldMap, foldl, foldr)
 import Data.Tuple (Tuple(..))
 
@@ -147,3 +147,22 @@ that :: forall a b. These a b -> Maybe b
 that = case _ of
   That x -> Just x
   _ -> Nothing
+
+-- | Returns the `a` and `b` values if and only if they are constructed
+-- | with `Both`.
+both :: forall a b. These a b -> Maybe (Tuple a b)
+both = case _ of
+  Both a x -> Just (Tuple a x)
+  _ -> Nothing
+
+-- | Returns `true` when the `These` value is `This`
+isThis :: forall a b. These a b -> Boolean
+isThis = isJust <<< this
+
+-- | Returns `true` when the `These` value is `That`
+isThat :: forall a b. These a b -> Boolean
+isThat = isJust <<< that
+
+-- | Returns `true` when the `These` value is `Both`
+isBoth :: forall a b. These a b -> Boolean
+isBoth = isJust <<< both

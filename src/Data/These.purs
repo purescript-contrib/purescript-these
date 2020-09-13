@@ -6,7 +6,7 @@ import Control.Extend (class Extend)
 import Data.Bifunctor (class Bifunctor)
 import Data.Bitraversable (class Bitraversable, class Bifoldable, bitraverse)
 import Data.Functor.Invariant (class Invariant, imapF)
-import Data.Maybe (Maybe(..))
+import Data.Maybe (Maybe(..), isJust)
 import Data.Traversable (class Traversable, class Foldable, foldMap, foldl, foldr)
 import Data.Tuple (Tuple(..))
 

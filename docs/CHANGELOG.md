@@ -11,5 +11,8 @@ New features:
 Bugfixes:
 
 Other improvements:
+- Documented additional things (#28)
+    - `These` data type and a short description of how type class instances work
+    - `these` and `fromThese` functions
 
 ## [0.0.0] - 2020-01-01

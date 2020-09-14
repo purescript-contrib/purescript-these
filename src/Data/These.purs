@@ -124,6 +124,8 @@ maybeThese = case _, _ of
   Just a, Just b -> Just (Both a b)
   Nothing, Nothing -> Nothing
 
+-- | Values stored in a `Both` are rewrapped as a `Tuple`. Otherwise,
+-- | the missing value is filled by this function's corresponding argument.
 fromThese :: forall a b. a -> b -> These a b -> Tuple a b
 fromThese _ x (This a) = Tuple a x
 fromThese a _ (That x) = Tuple a x

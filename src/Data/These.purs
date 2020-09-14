@@ -102,6 +102,7 @@ instance showThese :: (Show a, Show b) => Show (These a b) where
   show (That y) = "(That " <> show y <> ")"
   show (Both x y) = "(Both " <> show x <> " " <> show y <> ")"
 
+-- | Collapse a `These` value into single value.
 these :: forall a b c. (a -> c) -> (b -> c) -> (a -> b -> c) -> These a b -> c
 these l _ _ (This a) = l a
 these _ r _ (That x) = r x

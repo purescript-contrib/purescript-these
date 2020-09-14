@@ -11,7 +11,7 @@ New features:
 Bugfixes:
 
 Other improvements:
-- Documented additional things (#28)
+- Documented additional things (#28 by @JordanMartinez)
     - `These` data type and a short description of how type class instances work
     - `these` and `fromThese` functions
 

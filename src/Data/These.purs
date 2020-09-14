@@ -12,8 +12,6 @@ import Data.Tuple (Tuple(..))
 
 -- | Data type isomorphic to `α ∨ β ∨ (α ∧ β)` or
 -- | `Either a (Either b (Tuple a b))`.
--- |
--- | Most type classes instances work on the value of the `b` type.
 data These a b
   = This a
   | That b

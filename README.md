@@ -5,7 +5,7 @@
 [![Pursuit](https://pursuit.purescript.org/packages/purescript-these/badge)](https://pursuit.purescript.org/packages/purescript-these)
 [![Maintainer: garyb](https://img.shields.io/badge/maintainer-garyb-teal.svg)](https://github.com/garyb)
 
-Data type isomorphic to `α ∨ β ∨ (α ∧ β)`
+Data type isomorphic to `α ∨ β ∨ (α ∧ β)`. In other words, `Either a (Either b (Tuple a b))`
 
 ## Installation
 

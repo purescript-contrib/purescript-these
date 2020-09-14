@@ -126,7 +126,7 @@ maybeThese = case _, _ of
 -- | Takes two default values and a `These` value. If the `These` value is
 -- | `This` or `That`, the value wrapped in the `These` value and its
 -- | corresponding default value are wrapped into a `Tuple`.
--- | Otherwise, the values stored in the `Both` is rewrapped into a `Tuple`.
+-- | Otherwise, the values stored in the `Both` are rewrapped into a `Tuple`.
 fromThese :: forall a b. a -> b -> These a b -> Tuple a b
 fromThese _ x (This a) = Tuple a x
 fromThese a _ (That x) = Tuple a x

@@ -11,6 +11,7 @@ New features:
 Bugfixes:
 
 Other improvements:
+  - Add documentation for the `These` data type and `these` and `fromThese` functions (#28 by @JordanMartinez)
 
 ## [v4.0.0](https://github.com/purescript-contrib/purescript-these/releases/tag/v4.0.0) - 2018-05-26
 
@@ -60,4 +61,3 @@ Initial release candidate of the library intended for the 0.7 compiler.
 ## [v0.2.1](https://github.com/purescript-contrib/purescript-these/releases/tag/v0.2.1) - 2015-05-20
 
 - Added `thisOrBoth` and `thatOrBoth`
-

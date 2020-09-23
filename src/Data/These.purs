@@ -10,6 +10,8 @@ import Data.Maybe (Maybe(..), isJust)
 import Data.Traversable (class Traversable, class Foldable, foldMap, foldl, foldr)
 import Data.Tuple (Tuple(..))
 
+-- | Data type isomorphic to `α ∨ β ∨ (α ∧ β)` or
+-- | `Either a (Either b (Tuple a b))`.
 data These a b
   = This a
   | That b
@@ -98,6 +100,8 @@ instance showThese :: (Show a, Show b) => Show (These a b) where
   show (That y) = "(That " <> show y <> ")"
   show (Both x y) = "(Both " <> show x <> " " <> show y <> ")"
 
+-- | Given functions to handle each constructor, collapse a `These` value
+-- | into single value.
 these :: forall a b c. (a -> c) -> (b -> c) -> (a -> b -> c) -> These a b -> c
 these l _ _ (This a) = l a
 these _ r _ (That x) = r x
@@ -119,6 +123,10 @@ maybeThese = case _, _ of
   Just a, Just b -> Just (Both a b)
   Nothing, Nothing -> Nothing
 
+-- | Takes two default values and a `These` value. If the `These` value is
+-- | `This` or `That`, the value wrapped in the `These` value and its
+-- | corresponding default value are wrapped into a `Tuple`.
+-- | Otherwise, the values stored in the `Both` are rewrapped into a `Tuple`.
 fromThese :: forall a b. a -> b -> These a b -> Tuple a b
 fromThese _ x (This a) = Tuple a x
 fromThese a _ (That x) = Tuple a x

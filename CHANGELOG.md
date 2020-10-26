@@ -7,7 +7,7 @@ Notable changes to this project are documented in this file. The format is based
 Breaking changes (😱!!!):
 
 New features:
-- Added three new classes: `Align`, `Alignable`, and `Crosswalk` ([#29][]) by [@vladciobanu][]
+- Added three new classes: `Align`, `Alignable`, and `Crosswalk` (#29 by @vladciobanu)
 
 Bugfixes:
 
@@ -17,6 +17,3 @@ Other improvements:
     - `these` and `fromThese` functions
 
 ## [0.0.0] - 2020-01-01
-
-[#29][https://github.com/purescript-contrib/purescript-these/pull/29]
-[@vladciobanu][https://github.com/vladciobanu]

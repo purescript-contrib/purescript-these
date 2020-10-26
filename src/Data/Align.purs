@@ -1,16 +1,29 @@
-module Align where
+module Data.Align where
 
 import Prelude
 
 import Data.Array as A
 import Data.Foldable (class Foldable)
-import Data.Lazy (force)
 import Data.List as List
 import Data.List.Lazy as LazyList
 import Data.Maybe (Maybe(..))
 import Data.Newtype (unwrap)
 import Data.These (These(..), these)
 
+-- | The `Align` type class represents an operation similar to `Apply` with
+-- | slightly different semantics. For example:
+-- |
+-- | ```purescript
+-- | > align identity (Just 1) Nothing :: These Int Int
+-- | This 1
+-- | ```
+-- |
+-- | Instances are required to satisfy the following laws:
+-- |
+-- | - Idempotency: `join (align identity) == map (join These)`
+-- | - Commutativity `align identity x y == swap <$> align identity y x`
+-- | - Associativity `align identity x (align identity y z) == assoc <$> align identity (align identity x y) z`
+-- | - Functoriality `align identity (f <$> x) (g <$> y) ≡ bimap f g <$> align identity x y`
 class (Functor f) <= Align f where
   align :: forall a b c. (These a b -> c) -> f a -> f b -> f c
 
@@ -44,6 +57,10 @@ instance alignMaybe :: Align Maybe where
 aligned :: forall a b f. Align f => f a -> f b -> f (These a b)
 aligned = align identity
 
+-- | Instances are required to satisfy the following laws:
+-- |
+-- | - Left Identity: `align identity nil x == fmap That x`
+-- | - Right Identity: `align identity x nil ≡ fmap This x`
 class (Align f) <= Alignable f where
   nil :: forall a. f a
 
@@ -59,6 +76,9 @@ instance alignableLazyList :: Alignable LazyList.List where
 instance alignableMaybe :: Alignable Maybe where
   nil = Nothing
 
+-- | Instances are required to satisfy the following laws:
+-- |
+-- | - Annihilation: `crosswalk (const nil) == const nil`
 class (Foldable f, Functor f) <= Crosswalk f where
   crosswalk :: forall t a b. Alignable t => (a -> t b) -> f a -> t (f b)
 
@@ -82,13 +102,12 @@ instance crosswalkList :: Crosswalk List.List where
     where
       cons = these pure identity List.Cons
 
--- TODO: Does the `force` defeat the purpose of having an instance for lazy lists?
 instance crosswalkLazyList :: Crosswalk LazyList.List where
-  crosswalk f l = force $ go <$> unwrap l
+  crosswalk f l =
+    case LazyList.step l of
+      LazyList.Nil       -> nil
+      LazyList.Cons x xs -> align cons (f x) (crosswalk f xs)
     where
-      go = case _ of
-        LazyList.Nil       -> nil
-        LazyList.Cons x xs -> align cons (f x) (crosswalk f xs)
       cons = these pure identity LazyList.cons
 
 instance crosswalkMaybe :: Crosswalk Maybe where

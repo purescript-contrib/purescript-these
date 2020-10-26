@@ -54,9 +54,12 @@ instance alignMaybe :: Align Maybe where
   align f Nothing mb = f <<< That <$> mb
   align f (Just a) (Just b) = Just $ f (Both a b)
 
+-- | Convenience combinator for `align identity`.
 aligned :: forall a b f. Align f => f a -> f b -> f (These a b)
 aligned = align identity
 
+-- | `Alignable` adds an identity value for the `align` operation.
+-- |
 -- | Instances are required to satisfy the following laws:
 -- |
 -- | - Left Identity: `align identity nil x == fmap That x`
@@ -76,6 +79,32 @@ instance alignableLazyList :: Alignable LazyList.List where
 instance alignableMaybe :: Alignable Maybe where
   nil = Nothing
 
+-- | `Crosswalk` is similar to `Traversable`, but uses the `Align`/`Alignable`
+-- | semantics instead of `Apply`/`Applicative` for combining values.
+-- |
+-- | For example:
+-- | ```purescript
+-- | > traverse Int.fromString ["1", "2", "3"]
+-- | Just [1, 2, 3]
+-- | > crosswalk Int.fromString ["1", "2", "3"]
+-- | Just [1, 2, 3]
+-- |
+-- | > traverse Int.fromString ["a", "b", "c"]
+-- | Nothing
+-- | > crosswalk Int.fromString ["a", "b", "c"]
+-- | Nothing
+-- |
+-- | > traverse Int.fromString ["1", "b", "3"]
+-- | Nothing
+-- | > crosswalk Int.fromString ["1", "b", "3"]
+-- | Just [1, 3]
+-- |
+-- | > traverse Int.fromString []
+-- | Just []
+-- | > crosswalk Int.fromString []
+-- | Nothing
+-- | ```
+-- |
 -- | Instances are required to satisfy the following laws:
 -- |
 -- | - Annihilation: `crosswalk (const nil) == const nil`

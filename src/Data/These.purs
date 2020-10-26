@@ -175,9 +175,11 @@ isThat = isJust <<< that
 isBoth :: forall a b. These a b -> Boolean
 isBoth = isJust <<< both
 
+-- | Swap between `This` and `That`, and flips the order for `Both`.
 swap :: forall a b. These a b -> These b a
 swap = these That This (flip Both)
 
+-- | Re-associate `These` from left to right.
 assoc :: forall a b c. These (These a b) c -> These a (These b c)
 assoc = case _ of
   This (This a)     -> This a

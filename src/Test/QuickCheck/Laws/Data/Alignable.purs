@@ -11,6 +11,10 @@ import Test.QuickCheck.Arbitrary (class Arbitrary)
 import Test.QuickCheck.Laws (A, B)
 import Type.Proxy (Proxy2)
 
+-- | Instances are required to satisfy the following laws:
+-- |
+-- | - Left Identity: `align identity nil x == fmap That x`
+-- | - Right Identity: `align identity x nil ≡ fmap This x`
 checkAlignable
   :: forall f
    . Alignable f

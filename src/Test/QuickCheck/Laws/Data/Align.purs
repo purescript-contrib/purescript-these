@@ -12,6 +12,12 @@ import Test.QuickCheck.Arbitrary (class Arbitrary)
 import Test.QuickCheck.Laws (A, B, C, D)
 import Type.Proxy (Proxy2)
 
+-- | Instances are required to satisfy the following laws:
+-- |
+-- | - Idempotency: `join (align identity) == map (join These)`
+-- | - Commutativity `align identity x y == swap <$> align identity y x`
+-- | - Associativity `align identity x (align identity y z) == assoc <$> align identity (align identity x y) z`
+-- | - Functoriality `align identity (f <$> x) (g <$> y) ≡ bimap f g <$> align identity x y`
 checkAlign
   :: forall f
    . Align f

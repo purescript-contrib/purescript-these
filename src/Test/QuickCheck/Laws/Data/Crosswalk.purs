@@ -10,6 +10,9 @@ import Test.QuickCheck.Arbitrary (class Arbitrary)
 import Test.QuickCheck.Laws (A)
 import Type.Proxy (Proxy2)
 
+-- | Instances are required to satisfy the following laws:
+-- |
+-- | - Annihilation: `crosswalk (const nil) == const nil`
 checkCrosswalk
   :: forall f t
    . Crosswalk f

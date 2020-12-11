@@ -17,7 +17,7 @@
     "package.json"
   ],
   "dependencies": {
-    "purescript-tuples": "^5.0.0",
-    "purescript-gen": "^2.0.0"
+    "purescript-tuples": "master",
+    "purescript-gen": "master"
   }
 }

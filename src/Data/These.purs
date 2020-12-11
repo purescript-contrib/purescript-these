@@ -174,3 +174,19 @@ isThat = isJust <<< that
 -- | Returns `true` when the `These` value is `Both`
 isBoth :: forall a b. These a b -> Boolean
 isBoth = isJust <<< both
+
+-- | Swap between `This` and `That`, and flips the order for `Both`.
+swap :: forall a b. These a b -> These b a
+swap = these That This (flip Both)
+
+-- | Re-associate `These` from left to right.
+assoc :: forall a b c. These (These a b) c -> These a (These b c)
+assoc = case _ of
+  This (This a)     -> This a
+  This (That b)     -> That (This b)
+  This (Both a b)   -> Both a (This b)
+  That c            -> That (That c)
+  Both (This a) c   -> Both a (That c)
+  Both (That b) c   -> That (Both b c)
+  Both (Both a b) c -> Both a (Both b c)
+

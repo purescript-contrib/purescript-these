@@ -17,7 +17,16 @@
     "package.json"
   ],
   "dependencies": {
-    "purescript-tuples": "master",
-    "purescript-gen": "master"
+    "purescript-arrays": "master",
+    "purescript-gen": "master",
+    "purescript-lists": "master",
+    "purescript-quickcheck": "master",
+    "purescript-quickcheck-laws": "master",
+    "purescript-tuples": "master"
+  },
+  "devDependencies": {
+    "purescript-console": "master",
+    "purescript-effect": "master",
+    "purescript-psci-support": "master"
   }
 }

@@ -21,7 +21,7 @@
     "purescript-gen": "^3.0.0",
     "purescript-lists": "^6.0.0",
     "purescript-quickcheck": "^7.0.0",
-    "purescript-quickcheck-laws": null,
+    "purescript-quickcheck-laws": "^6.0.0",
     "purescript-tuples": "^6.0.0"
   },
   "devDependencies": {

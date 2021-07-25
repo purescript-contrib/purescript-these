@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/purescript-contrib/purescript-these.git"
+    "url": "https://github.com/purescript-contrib/purescript-these.git"
   },
   "ignore": [
     "**/.*",
@@ -17,7 +17,15 @@
     "package.json"
   ],
   "dependencies": {
-    "purescript-tuples": "master",
-    "purescript-gen": "master"
+    "purescript-arrays": "^6.0.0",
+    "purescript-gen": "^3.0.0",
+    "purescript-lists": "^6.0.0",
+    "purescript-quickcheck": "^7.0.0",
+    "purescript-quickcheck-laws": "^6.0.0",
+    "purescript-tuples": "^6.0.0"
+  },
+  "devDependencies": {
+    "purescript-console": "^5.0.0",
+    "purescript-effect": "^3.0.0"
   }
 }

@@ -4,19 +4,33 @@ Notable changes to this project are documented in this file. The format is based
 
 ## [Unreleased]
 
-Breaking changes (😱!!!):
+Breaking changes:
 
 New features:
-- Added three new classes: `Align`, `Alignable`, and `Crosswalk` (#29 by @vladciobanu)
 
 Bugfixes:
 
 Other improvements:
-  - Add documentation for the `These` data type and `these` and `fromThese` functions (#28 by @JordanMartinez)
+
+## [v5.0.0](https://github.com/purescript-contrib/purescript-these/releases/tag/v5.0.0) - 2021-02-26
+
+Breaking changes:
+- Added support for PureScript 0.14 and dropped support for all previous versions (#31)
+
+New features:
+- Added three new classes: `Align`, `Alignable`, and `Crosswalk` (#29 by @vladciobanu)
+- Added `both`, `isThat`, `isThis`, and `isBoth` (#25 by @thomashoneyman)
+
+Bugfixes:
+
+Other improvements:
+- Changed default branch to `main` from `master`
+- Add documentation for the `These` data type and `these` and `fromThese` functions (#28 by @JordanMartinez)
+- Updated to comply with Contributors library guidelines by adding new issue and pull request templates, updating documentation, and migrating to Spago for local development and CI (#26, #30)
 
 ## [v4.0.0](https://github.com/purescript-contrib/purescript-these/releases/tag/v4.0.0) - 2018-05-26
 
-Updated for PureScript 0.12
+- Updated for PureScript 0.12
 
 ## [v3.1.0](https://github.com/purescript-contrib/purescript-these/releases/tag/v3.1.0) - 2018-03-15
 
@@ -33,7 +47,7 @@ Updated for PureScript 0.12
 
 ## [v1.0.0](https://github.com/purescript-contrib/purescript-these/releases/tag/v1.0.0) - 2016-06-06
 
-Updates for 1.0 core libraries.
+- Updated for 1.0 core libraries.
 
 ## [v0.3.4](https://github.com/purescript-contrib/purescript-these/releases/tag/v0.3.4) - 2016-05-16
 
@@ -45,7 +59,7 @@ Updates for 1.0 core libraries.
 
 ## [v0.3.2](https://github.com/purescript-contrib/purescript-these/releases/tag/v0.3.2) - 2015-11-14
 
-- Update to allow publishing on http://pursuit.purescript.org/
+- Updated to allow publishing on http://pursuit.purescript.org/
 
 ## [v0.3.1](https://github.com/purescript-contrib/purescript-these/releases/tag/v0.3.1) - 2015-10-23
 
@@ -55,10 +69,6 @@ Updates for 1.0 core libraries.
 
 This release works with versions 0.7.\* of the PureScript compiler. It will not work with older versions. If you are using an older version, you should require an older, compatible version of this library.
 
-## [v0.3.0-rc.1](https://github.com/purescript-contrib/purescript-these/releases/tag/v0.3.0-rc.1) - 2015-06-14
-
-Initial release candidate of the library intended for the 0.7 compiler.
-
 ## [v0.2.1](https://github.com/purescript-contrib/purescript-these/releases/tag/v0.2.1) - 2015-05-20
 
-- Added `thisOrBoth` and `thatOrBoth`
+- Initial versioned release. Added `thisOrBoth` and `thatOrBoth`.

@@ -15,13 +15,13 @@ import Test.QuickCheck.Laws.Control.Crosswalk (checkCrosswalk)
 import Type.Proxy (Proxy2(..))
 
 runCrosswalkChecksFor
-    :: forall f
-    .  Crosswalk f
-    => Arbitrary (f A)
-    => Eq (f A)
-    => Proxy2 f
-    -> String
-    -> Effect Unit
+  :: forall f
+   . Crosswalk f
+  => Arbitrary (f A)
+  => Eq (f A)
+  => Proxy2 f
+  -> String
+  -> Effect Unit
 runCrosswalkChecksFor p name = do
   log $ "Check Crosswalk instance for " <> name <> "/Array"
   checkCrosswalk p (Proxy2 :: _ Array)
@@ -48,4 +48,4 @@ main = do
 
   runCrosswalkChecksFor (Proxy2 :: _ Array) "Array"
   runCrosswalkChecksFor (Proxy2 :: _ Maybe) "Maybe"
-  runCrosswalkChecksFor (Proxy2 :: _ List)  "List"
+  runCrosswalkChecksFor (Proxy2 :: _ List) "List"

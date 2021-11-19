@@ -7,5 +7,5 @@ import Control.Monad.Gen.Common (genMaybe)
 import Control.Monad.Rec.Class (class MonadRec)
 import Data.These (These, maybeThese)
 
-genThese ∷ forall m a b. MonadGen m => MonadRec m => m a -> m b -> m (These a b)
+genThese :: forall m a b. MonadGen m => MonadRec m => m a -> m b -> m (These a b)
 genThese ga gb = filtered (maybeThese <$> genMaybe ga <*> genMaybe gb)

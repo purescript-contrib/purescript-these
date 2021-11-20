@@ -54,10 +54,10 @@ checkAlign _ = do
 
   associativity :: f A -> f B -> f C -> Boolean
   associativity fa fb fc =
-      align identity fa (align identity fb fc) ==
-        (assoc <$> align identity (align identity fa fb) fc)
+    align identity fa (align identity fb fc) ==
+      (assoc <$> align identity (align identity fa fb) fc)
 
   functoriality :: f A -> f B -> (A -> C) -> (B -> D) -> Boolean
   functoriality a b f g =
-      align identity (f <$> a) (g <$> b) ==
-        (bimap f g <$> align identity a b)
+    align identity (f <$> a) (g <$> b) ==
+      (bimap f g <$> align identity a b)

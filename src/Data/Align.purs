@@ -32,9 +32,9 @@ instance alignArray :: Align Array where
   align f [] ys = f <<< That <$> ys
   align f xs ys = A.zipWith f' xs ys <> align f xs' ys'
     where
-      f' x y = f (Both x y)
-      xs' = A.drop (A.length ys) xs
-      ys' = A.drop (A.length xs) ys
+    f' x y = f (Both x y)
+    xs' = A.drop (A.length ys) xs
+    ys' = A.drop (A.length xs) ys
 
 instance alignList :: Align List.List where
   align f xs List.Nil = f <<< This <$> xs
@@ -44,10 +44,10 @@ instance alignList :: Align List.List where
 instance alignLazyList :: Align LazyList.List where
   align f xs ys = LazyList.List $ go <$> unwrap xs <*> unwrap ys
     where
-      go LazyList.Nil LazyList.Nil = LazyList.Nil
-      go (LazyList.Cons x xs') LazyList.Nil = f (This x) `LazyList.Cons` align f xs' mempty
-      go LazyList.Nil (LazyList.Cons y ys') = f (That y) `LazyList.Cons` align f mempty ys'
-      go (LazyList.Cons x xs') (LazyList.Cons y ys') = f (Both x y) `LazyList.Cons` align f xs' ys'
+    go LazyList.Nil LazyList.Nil = LazyList.Nil
+    go (LazyList.Cons x xs') LazyList.Nil = f (This x) `LazyList.Cons` align f xs' mempty
+    go LazyList.Nil (LazyList.Cons y ys') = f (That y) `LazyList.Cons` align f mempty ys'
+    go (LazyList.Cons x xs') (LazyList.Cons y ys') = f (Both x y) `LazyList.Cons` align f xs' ys'
 
 instance alignMaybe :: Align Maybe where
   align f ma Nothing = f <<< This <$> ma
@@ -113,34 +113,34 @@ class (Foldable f, Functor f) <= Crosswalk f where
 
 instance crosswalkThese :: Crosswalk (These a) where
   crosswalk f = case _ of
-    This _   -> nil
-    That x   -> That <$> f x
+    This _ -> nil
+    That x -> That <$> f x
     Both a x -> Both a <$> f x
 
 instance crosswalkArray :: Crosswalk Array where
   crosswalk f xs = case A.uncons xs of
-    Nothing             -> nil
+    Nothing -> nil
     Just { head, tail } -> align cons (f head) (crosswalk f tail)
     where
-      cons = these pure identity A.cons
+    cons = these pure identity A.cons
 
 instance crosswalkList :: Crosswalk List.List where
   crosswalk f = case _ of
-    List.Nil       -> nil
+    List.Nil -> nil
     List.Cons x xs -> align cons (f x) (crosswalk f xs)
     where
-      cons = these pure identity List.Cons
+    cons = these pure identity List.Cons
 
 instance crosswalkLazyList :: Crosswalk LazyList.List where
   crosswalk f l =
     case LazyList.step l of
-      LazyList.Nil       -> nil
+      LazyList.Nil -> nil
       LazyList.Cons x xs -> align cons (f x) (crosswalk f xs)
     where
-      cons = these pure identity LazyList.cons
+    cons = these pure identity LazyList.cons
 
 instance crosswalkMaybe :: Crosswalk Maybe where
   crosswalk f = case _ of
     Nothing -> nil
-    Just a  -> Just <$> f a
+    Just a -> Just <$> f a
 

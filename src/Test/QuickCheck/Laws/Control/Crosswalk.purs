@@ -8,7 +8,7 @@ import Effect.Console (log)
 import Test.QuickCheck (quickCheck')
 import Test.QuickCheck.Arbitrary (class Arbitrary)
 import Test.QuickCheck.Laws (A)
-import Type.Proxy (Proxy2)
+import Type.Proxy (Proxy)
 
 -- | Instances are required to satisfy the following laws:
 -- |
@@ -19,8 +19,8 @@ checkCrosswalk
   => Alignable t
   => Arbitrary (f A)
   => Eq (t (f A))
-  => Proxy2 f
-  -> Proxy2 t
+  => Proxy f
+  -> Proxy t
   -> Effect Unit
 checkCrosswalk _ _ = do
 

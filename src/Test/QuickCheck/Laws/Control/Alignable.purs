@@ -9,7 +9,7 @@ import Effect.Console (log)
 import Test.QuickCheck (quickCheck')
 import Test.QuickCheck.Arbitrary (class Arbitrary)
 import Test.QuickCheck.Laws (A, B)
-import Type.Proxy (Proxy2)
+import Type.Proxy (Proxy)
 
 -- | Instances are required to satisfy the following laws:
 -- |
@@ -21,7 +21,7 @@ checkAlignable
   => Arbitrary (f A)
   => Arbitrary (f B)
   => Eq (f (These A B))
-  => Proxy2 f
+  => Proxy f
   -> Effect Unit
 checkAlignable _ = do
 

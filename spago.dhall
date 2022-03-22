@@ -12,7 +12,6 @@
   , "maybe"
   , "newtype"
   , "prelude"
-  , "psci-support"
   , "quickcheck"
   , "quickcheck-laws"
   , "tailrec"

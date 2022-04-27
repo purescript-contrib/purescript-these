@@ -17,15 +17,15 @@
     "package.json"
   ],
   "dependencies": {
-    "purescript-arrays": "master",
-    "purescript-gen": "master",
-    "purescript-lists": "master",
-    "purescript-quickcheck": "master",
-    "purescript-quickcheck-laws": "main",
-    "purescript-tuples": "master"
+    "purescript-arrays": "^7.0.0",
+    "purescript-gen": "^4.0.0",
+    "purescript-lists": "^7.0.0",
+    "purescript-quickcheck": "^8.0.1",
+    "purescript-quickcheck-laws": "^7.0.0",
+    "purescript-tuples": "^7.0.0"
   },
   "devDependencies": {
-    "purescript-console": "master",
-    "purescript-effect": "master"
+    "purescript-console": "^6.0.0",
+    "purescript-effect": "^4.0.0"
   }
 }

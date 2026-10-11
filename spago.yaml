@@ -1,0 +1,33 @@
+package:
+  name: these
+  description: "Data type isomorphic to: α ∨ β ∨ (α ∧ β)"
+  publish:
+    version: 6.0.1
+    license: MIT
+    location:
+      githubOwner: purescript-contrib
+      githubRepo: purescript-these
+  dependencies:
+    - arrays: ">=7.0.0 <8.0.0"
+    - bifunctors: ">=6.0.0 <7.0.0"
+    - console: ">=6.0.0 <7.0.0"
+    - control: ">=6.0.0 <7.0.0"
+    - effect: ">=4.0.0 <5.0.0"
+    - foldable-traversable: ">=6.0.0 <7.0.0"
+    - gen: ">=4.0.0 <5.0.0"
+    - invariant: ">=6.0.0 <7.0.0"
+    - lists: ">=7.0.0 <8.0.0"
+    - maybe: ">=6.0.0 <7.0.0"
+    - newtype: ">=5.0.0 <6.0.0"
+    - prelude: ">=6.0.0 <7.0.0"
+    - quickcheck: ">=8.0.1 <9.0.0"
+    - quickcheck-laws: ">=7.0.0 <8.0.0"
+    - tailrec: ">=6.0.0 <7.0.0"
+    - tuples: ">=7.0.0 <8.0.0"
+  test:
+    main: Test.Main
+    dependencies: []
+
+workspace:
+  packageSet:
+    registry: 81.4.0
